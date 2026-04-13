@@ -59,7 +59,7 @@ export default function CountryHeadDashboard() {
   })
 
   return (
-    <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+    <div className="space-y-6">
       <PageHeader
         title="Country Overview"
         subtitle={today}
@@ -70,7 +70,7 @@ export default function CountryHeadDashboard() {
           href="/country-head/reports"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 shadow-lg shadow-zinc-200 dark:shadow-none transition-all"
         >
           Country Report <ArrowUpRight size={14} />
         </motion.a>
@@ -84,8 +84,8 @@ export default function CountryHeadDashboard() {
         <QuickActions actions={quickActions} />
 
         {/* state performance bars */}
-        <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
             State Target Achievement
           </h3>
           <div className="space-y-3">
@@ -97,13 +97,13 @@ export default function CountryHeadDashboard() {
                 transition={{ delay: i * 0.07 + 0.3 }}
                 className="space-y-1"
               >
-                <div className="flex justify-between text-xs text-neutral-500">
+                <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                   <span>{s.label}</span>
                   <span className="font-medium" style={{ color: s.pct >= 100 ? '#0F6E56' : s.pct < 60 ? '#A32D2D' : '#854F0B' }}>
                     {s.pct}%
                   </span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min(s.pct, 100)}%` }}
@@ -135,8 +135,8 @@ export default function CountryHeadDashboard() {
         />
 
         {/* country overview card */}
-        <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
             Country Summary
           </h3>
           <div className="space-y-3">
@@ -155,7 +155,7 @@ export default function CountryHeadDashboard() {
                 className="flex items-center justify-between rounded-xl px-4 py-3"
                 style={{ background: `${item.color}08` }}
               >
-                <span className="text-sm text-neutral-600">{item.label}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">{item.label}</span>
                 <span className="text-sm font-semibold" style={{ color: item.color }}>{item.value}</span>
               </motion.div>
             ))}

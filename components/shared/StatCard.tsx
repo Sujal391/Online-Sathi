@@ -32,8 +32,8 @@ export function StatCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'relative overflow-hidden rounded-2xl border border-neutral-100 bg-white p-5',
-        'hover:shadow-md hover:shadow-neutral-100 transition-shadow duration-300'
+        'relative overflow-hidden rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm',
+        'hover:shadow-md hover:shadow-zinc-100 dark:hover:shadow-none transition-all duration-300'
       )}
     >
       {/* accent bar */}
@@ -44,19 +44,19 @@ export function StatCard({
 
       <div className="flex items-start justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-medium tracking-wide text-neutral-400 uppercase">
+          <p className="text-xs font-medium tracking-wide text-zinc-400 dark:text-zinc-500 uppercase">
             {label}
           </p>
-          <p className="text-2xl font-semibold tracking-tight text-neutral-900">
+          <p className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
             {value}
           </p>
           {delta && (
             <div
               className={cn(
                 'flex items-center gap-1 text-xs font-medium',
-                trend === 'up' && 'text-emerald-600',
-                trend === 'down' && 'text-red-500',
-                trend === 'neutral' && 'text-neutral-400'
+                trend === 'up' && 'text-emerald-600 dark:text-emerald-400',
+                trend === 'down' && 'text-red-500 dark:text-red-400',
+                trend === 'neutral' && 'text-zinc-400 dark:text-zinc-500'
               )}
             >
               <TrendIcon className="h-3 w-3" />

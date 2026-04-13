@@ -52,7 +52,7 @@ export default function UserDashboard() {
     const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
     return (
-        <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+        <div className="space-y-6">
             <PageHeader
                 title={`${greeting}! 👋`}
                 subtitle="Pay bills, top-up mobile and track your payments"
@@ -63,7 +63,7 @@ export default function UserDashboard() {
                     href="/user/history"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700"
+                    className="flex items-center gap-1.5 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
                 >
                     <History size={14} /> History
                 </motion.a>
@@ -114,7 +114,7 @@ export default function UserDashboard() {
 
             {/* pay bills — main CTA */}
             <div>
-                <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                     Pay Bills
                 </h2>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -127,7 +127,7 @@ export default function UserDashboard() {
                             transition={{ delay: i * 0.07 + 0.2 }}
                             whileHover={{ scale: 1.03, y: -2 }}
                             whileTap={{ scale: 0.97 }}
-                            className="flex flex-col items-center gap-3 rounded-2xl border border-neutral-100 bg-white py-6 px-4 text-center shadow-sm shadow-neutral-100 transition-shadow hover:shadow-md"
+                            className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 py-6 px-4 text-center shadow-sm shadow-zinc-100 dark:shadow-none transition-all hover:shadow-md"
                         >
                             <div
                                 className="flex h-12 w-12 items-center justify-center rounded-2xl"
@@ -136,8 +136,8 @@ export default function UserDashboard() {
                                 {svc.icon}
                             </div>
                             <div>
-                                <p className="text-sm font-semibold text-neutral-800">{svc.label}</p>
-                                <p className="text-xs text-neutral-400">{svc.provider}</p>
+                                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{svc.label}</p>
+                                <p className="text-xs text-zinc-400 dark:text-zinc-500">{svc.provider}</p>
                             </div>
                             <span
                                 className="flex items-center gap-1 text-xs font-medium"
@@ -153,7 +153,7 @@ export default function UserDashboard() {
             {/* upcoming bills */}
             {upcoming.length > 0 && (
                 <div>
-                    <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                    <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         Upcoming Bills
                     </h2>
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -163,14 +163,14 @@ export default function UserDashboard() {
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.08 + 0.3 }}
-                                className="flex items-center justify-between rounded-2xl border border-neutral-100 bg-white px-5 py-4"
+                                className="flex items-center justify-between rounded-2xl border border-zinc-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 px-5 py-4"
                             >
                                 <div>
-                                    <p className="text-sm font-medium text-neutral-800">{bill.service}</p>
-                                    <p className="text-xs text-neutral-400">Due in {bill.due}</p>
+                                    <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{bill.service}</p>
+                                    <p className="text-xs text-zinc-400 dark:text-zinc-500">Due in {bill.due}</p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <span className="text-sm font-semibold text-neutral-900">{bill.amount}</span>
+                                    <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{bill.amount}</span>
                                     <motion.a
                                         href="/user/payments"
                                         whileHover={{ scale: 1.02 }}
@@ -190,9 +190,9 @@ export default function UserDashboard() {
             {/* history & activity */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {/* payment history table */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-5">
+                <div className="rounded-2xl border border-zinc-100 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
                     <div className="mb-4 flex items-center justify-between">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                        <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                             Payment History
                         </h3>
                         <a href="/user/history" className="text-xs font-medium text-blue-600 hover:text-blue-700">
@@ -201,9 +201,9 @@ export default function UserDashboard() {
                     </div>
                     <table className="w-full">
                         <thead>
-                            <tr className="border-b border-neutral-50">
+                            <tr className="border-b border-zinc-50 dark:border-white/5">
                                 {['Service', 'Amount', 'Date', 'Status'].map((h) => (
-                                    <th key={h} className="pb-2 text-left text-xs font-medium text-neutral-400">{h}</th>
+                                    <th key={h} className="pb-2 text-left text-xs font-medium text-zinc-400 dark:text-zinc-500">{h}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -214,11 +214,11 @@ export default function UserDashboard() {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: i * 0.05 + 0.3 }}
-                                    className="border-b border-neutral-50 last:border-0 hover:bg-neutral-50 transition-colors"
+                                    className="border-b border-zinc-50 dark:border-white/5 last:border-0 hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors"
                                 >
-                                    <td className="py-2.5 text-sm text-neutral-700">{row.service}</td>
-                                    <td className="py-2.5 text-sm font-medium text-neutral-900">{row.amount}</td>
-                                    <td className="py-2.5 text-xs text-neutral-400">{row.date}</td>
+                                    <td className="py-2.5 text-sm text-zinc-700 dark:text-zinc-300">{row.service}</td>
+                                    <td className="py-2.5 text-sm font-medium text-zinc-900 dark:text-zinc-100">{row.amount}</td>
+                                    <td className="py-2.5 text-xs text-zinc-400 dark:text-zinc-500">{row.date}</td>
                                     <td className="py-2.5">
                                         <span className="inline-block rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                                             {row.status}

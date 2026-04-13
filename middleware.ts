@@ -1,18 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Role to Path mapping based on folder structure
-const ROLE_ROUTES: Record<string, string> = {
-  SUPER_ADMIN: "/super-admin",
-  ADMIN: "/admin",
-  SUB_ADMIN: "/sub-admin",
-  COUNTRY_HEAD: "/country-head",
-  STATE_HEAD: "/state-head",
-  STATE_PARTNER: "/state-partner",
-  DISTRICT_PARTNER: "/district-partner",
-  AGENT: "/agent",
-  USER: "/user",
-};
+import { ROLE_ROUTES } from "@/lib/constants";
 
 // Public routes that don't require authentication
 const PUBLIC_ROUTES = ["/login", "/register"];

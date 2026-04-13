@@ -11,25 +11,45 @@ function removeCookie(name: string) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
+export interface User {
+  id: string;
+  mobile: string;
+  email: string;
+  fullName: string;
+  gender: string;
+  dateOfBirth: string;
+  identity: string;
+  approvalStatus: string;
+  createdAt: string;
+  roles: string[];
+}
+
+export interface MeResponse {
+  success: boolean;
+  user: User;
+}
+
 export interface AuthResponse {
   success: boolean;
-  token: string;
-  user: {
-    id: string;
-    mobile: string;
-    identity: string;
-  };
+  accessToken: string;
+  identity: string;
+  roles: string[];
+  redirectTo: string;
 }
 
 export const authService = {
+  async getMe(): Promise<MeResponse> {
+    return api.get("/auth/me");
+  },
+
   async login(mobile: string, password: string): Promise<AuthResponse> {
     const response = await api.post<AuthResponse>("/auth/login", { mobile, password });
-    
+
     if (response.success) {
-      setCookie("token", response.token);
-      setCookie("role", response.user.identity);
+      setCookie("token", response.accessToken);
+      setCookie("role", response.identity);
     }
-    
+
     return response;
   },
 
@@ -49,18 +69,19 @@ export const authService = {
     password: string;
   }): Promise<AuthResponse> {
     const response = await api.post<AuthResponse>("/auth/register", data);
-    
+
     if (response.success) {
-      setCookie("token", response.token);
-      setCookie("role", response.user.identity);
+      setCookie("token", response.accessToken);
+      setCookie("role", response.identity);
     }
-    
+
     return response;
   },
 
   logout() {
     removeCookie("token");
     removeCookie("role");
+    localStorage.removeItem('job_profile_draft');
     window.location.href = "/login";
   }
 };
