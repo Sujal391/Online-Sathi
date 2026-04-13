@@ -18,6 +18,10 @@ import {
   Send,
   FileText,
   Link as LinkIcon,
+  Phone,
+  UserRound,
+  BadgeIndianRupee,
+  ShieldCheck,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -115,6 +119,18 @@ export default function JobDetailPage() {
     });
   };
 
+  const formatLocation = (jobItem: Job) => {
+    return [
+      jobItem.fullAddress,
+      jobItem.district,
+      jobItem.state,
+      jobItem.country,
+      jobItem.pincode,
+    ]
+      .filter(Boolean)
+      .join(", ");
+  };
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -189,7 +205,7 @@ export default function JobDetailPage() {
                 <div className="flex items-center gap-4 text-sm text-zinc-500 flex-wrap">
                   <span className="flex items-center gap-1.5">
                     <Building2 className="h-4 w-4" />
-                    {job.company}
+                    {job.contactName || job.company}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <MapPin className="h-4 w-4" />
@@ -202,6 +218,10 @@ export default function JobDetailPage() {
                   <span className="flex items-center gap-1.5">
                     <Briefcase className="h-4 w-4" />
                     {job.experience}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-4 w-4" />
+                    {job.shift || "Shift not specified"}
                   </span>
                 </div>
               </div>
@@ -217,7 +237,8 @@ export default function JobDetailPage() {
                   <DialogHeader>
                     <DialogTitle>Apply for {job.title}</DialogTitle>
                     <DialogDescription>
-                      Submit your application for this position at {job.company}
+                      Submit your application for this position with{" "}
+                      {job.contactName || job.company}
                     </DialogDescription>
                   </DialogHeader>
                   <form onSubmit={handleApply} className="space-y-4 mt-4">
@@ -308,7 +329,7 @@ export default function JobDetailPage() {
           </motion.div>
 
           {/* Requirements */}
-          <motion.div
+         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -318,22 +339,47 @@ export default function JobDetailPage() {
                 <CardTitle className="text-lg">Requirements</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  {job.requirements.map((req, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
-                    >
-                      <CheckCircle2 className="h-5 w-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span>{req}</span>
-                    </li>
-                  ))}
-                </ul>
+                {job.requirements.length > 0 ? (
+                  <ul className="space-y-2">
+                    {job.requirements.map((req, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
+                      >
+                        <CheckCircle2 className="h-5 w-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                        <span>{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                      <p className="text-xs text-zinc-500">Education</p>
+                      <p className="mt-1 text-sm font-medium">{job.education || "Not specified"}</p>
+                    </div>
+                    <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                      <p className="text-xs text-zinc-500">Experience</p>
+                      <p className="mt-1 text-sm font-medium">{job.experience}</p>
+                    </div>
+                    <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                      <p className="text-xs text-zinc-500">Gender</p>
+                      <p className="mt-1 text-sm font-medium">{job.gender}</p>
+                    </div>
+                    <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                      <p className="text-xs text-zinc-500">Age Range</p>
+                      <p className="mt-1 text-sm font-medium">
+                        {job.minAge > 0 || job.maxAge > 0
+                          ? `${job.minAge} - ${job.maxAge} years`
+                          : "Not specified"}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Responsibilities */}
+          {/* Job Details */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -341,20 +387,79 @@ export default function JobDetailPage() {
           >
             <Card className="rounded-2xl border-zinc-100 dark:border-white/5">
               <CardHeader>
-                <CardTitle className="text-lg">Responsibilities</CardTitle>
+                <CardTitle className="text-lg">Work Details</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  {job.responsibilities.map((resp, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
-                    >
-                      <CheckCircle2 className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                      <span>{resp}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <p className="text-xs text-zinc-500">Openings</p>
+                    <p className="mt-1 text-sm font-medium">{job.openings || 0}</p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <p className="text-xs text-zinc-500">Shift</p>
+                    <p className="mt-1 text-sm font-medium">{job.shift || "Not specified"}</p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <p className="text-xs text-zinc-500">Week Off</p>
+                    <p className="mt-1 text-sm font-medium">{job.weekOffDays || "Not specified"}</p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <p className="text-xs text-zinc-500">Joining Fees</p>
+                    <p className="mt-1 text-sm font-medium">
+                      {job.joiningFees ? "Applicable" : "No joining fees"}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Card className="rounded-2xl border-zinc-100 dark:border-white/5">
+              <CardHeader>
+                <CardTitle className="text-lg">Facilities & Contact</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  {job.facilities.length > 0 ? (
+                    job.facilities.map((facility) => (
+                      <Badge
+                        key={facility}
+                        variant="secondary"
+                        className="rounded-lg text-xs"
+                      >
+                        {facility}
+                      </Badge>
+                    ))
+                  ) : (
+                    <p className="text-sm text-zinc-500">No facilities listed</p>
+                  )}
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <div className="flex items-center gap-2 text-zinc-500">
+                      <UserRound className="h-4 w-4" />
+                      <span className="text-xs">Contact Person</span>
+                    </div>
+                    <p className="mt-2 text-sm font-medium">
+                      {job.contactName || "Not specified"}
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
+                    <div className="flex items-center gap-2 text-zinc-500">
+                      <Phone className="h-4 w-4" />
+                      <span className="text-xs">Contact Number</span>
+                    </div>
+                    <p className="mt-2 text-sm font-medium">
+                      {job.contactNumber || "Not specified"}
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -385,7 +490,7 @@ export default function JobDetailPage() {
                 <div className="flex items-center gap-3">
                   <Clock className="h-4 w-4 text-zinc-400" />
                   <div>
-                    <p className="text-xs text-zinc-500">Application Deadline</p>
+                    <p className="text-xs text-zinc-500">Last Updated</p>
                     <p className="text-sm font-medium">
                       {formatDate(job.deadline)}
                     </p>
@@ -405,6 +510,24 @@ export default function JobDetailPage() {
                     <p className="text-sm font-medium">{job.experience}</p>
                   </div>
                 </div>
+                <div className="flex items-center gap-3">
+                  <BadgeIndianRupee className="h-4 w-4 text-zinc-400" />
+                  <div>
+                    <p className="text-xs text-zinc-500">Pay Structure</p>
+                    <p className="text-sm font-medium">
+                      {job.payStructure || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <ShieldCheck className="h-4 w-4 text-zinc-400" />
+                  <div>
+                    <p className="text-xs text-zinc-500">Hiring Priority</p>
+                    <p className="text-sm font-medium">
+                      {job.urgentHiring ? "Urgent hiring" : "Regular hiring"}
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -420,16 +543,55 @@ export default function JobDetailPage() {
                 <CardTitle className="text-lg">Required Skills</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {job.skills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className="rounded-lg text-xs"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
+                {job.skills.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {job.skills.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="secondary"
+                        className="rounded-lg text-xs"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-zinc-500">No specific skills listed</p>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <Card className="rounded-2xl border-zinc-100 dark:border-white/5">
+              <CardHeader>
+                <CardTitle className="text-lg">Location</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  {formatLocation(job) || "Location not specified"}
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <p className="text-xs text-zinc-500">District</p>
+                    <p className="text-sm font-medium">{job.district || "Not specified"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-zinc-500">State</p>
+                    <p className="text-sm font-medium">{job.state || "Not specified"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-zinc-500">Country</p>
+                    <p className="text-sm font-medium">{job.country || "Not specified"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-zinc-500">Pincode</p>
+                    <p className="text-sm font-medium">{job.pincode || "Not specified"}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
