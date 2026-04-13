@@ -28,6 +28,7 @@ export const SIDEBAR_ITEMS: Record<string, SidebarItem[]> = {
     { title: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
     { title: "Staff Management", href: "/admin/staff", icon: "UserCog" },
     { title: "Department", href: "/admin/departments", icon: "Building2" },
+    { title: "Jobs", href: "/admin/jobs", icon: "Briefcase" },
     { title: "Reports", href: "/admin/reports", icon: "BarChart3" },
   ],
   SUB_ADMIN: [

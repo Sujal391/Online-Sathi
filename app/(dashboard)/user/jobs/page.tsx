@@ -201,6 +201,10 @@ export default function JobsPage() {
             className="grid gap-4"
           >
             {jobs.map((job, index) => (
+              (() => {
+                const jobSkills = Array.isArray(job.skills) ? job.skills : [];
+
+                return (
               <motion.div
                 key={job.id}
                 initial={{ opacity: 0, y: 10 }}
@@ -253,7 +257,7 @@ export default function JobsPage() {
                           </p>
 
                           <div className="flex items-center gap-2 flex-wrap">
-                            {job.skills.slice(0, 4).map((skill) => (
+                            {jobSkills.slice(0, 4).map((skill) => (
                               <Badge
                                 key={skill}
                                 variant="outline"
@@ -262,12 +266,12 @@ export default function JobsPage() {
                                 {skill}
                               </Badge>
                             ))}
-                            {job.skills.length > 4 && (
+                            {jobSkills.length > 4 && (
                               <Badge
                                 variant="outline"
                                 className="rounded-lg text-xs font-normal"
                               >
-                                +{job.skills.length - 4} more
+                                +{jobSkills.length - 4} more
                               </Badge>
                             )}
                           </div>
@@ -279,6 +283,8 @@ export default function JobsPage() {
                   </Card>
                 </Link>
               </motion.div>
+                );
+              })()
             ))}
           </motion.div>
         )}
