@@ -71,7 +71,7 @@ export default function SuperAdminDashboard() {
   })
 
   return (
-    <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+    <div className="space-y-6">
       {/* header */}
       <PageHeader
         title="Platform Overview"
@@ -83,7 +83,7 @@ export default function SuperAdminDashboard() {
           href="/super-admin/analytics"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 shadow-lg shadow-zinc-200 dark:shadow-none transition-all"
         >
           Full Analytics <ArrowUpRight size={14} />
         </motion.a>
@@ -102,8 +102,8 @@ export default function SuperAdminDashboard() {
         <QuickActions actions={quickActions} />
 
         {/* service mix bar chart */}
-        <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
             Service Mix
           </h3>
           <div className="space-y-3">
@@ -115,11 +115,11 @@ export default function SuperAdminDashboard() {
                 transition={{ delay: i * 0.07 + 0.3 }}
                 className="space-y-1"
               >
-                <div className="flex justify-between text-xs text-neutral-500">
+                <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                   <span>{s.label}</span>
-                  <span className="font-medium">{s.pct}%</span>
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">{s.pct}%</span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${s.pct}%` }}

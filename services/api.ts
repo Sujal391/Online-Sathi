@@ -1,5 +1,5 @@
-const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "https://online-saathi-backend.onrender.com/api/";
-const BASE_URL = rawApiUrl.startsWith('http') ? rawApiUrl : `https://${rawApiUrl}`;
+import { API_URL } from "@/lib/config";
+import { getAuthToken } from "@/lib/auth";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -12,12 +12,21 @@ interface RequestOptions {
 async function apiFetch<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { method = "GET", body, headers = {} } = options;
 
-  const url = `${BASE_URL.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
+  const baseUrl = API_URL || "";
+  const url = `${baseUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
+
+  const token = getAuthToken();
+  const authHeaders: Record<string, string> = {};
+  
+  if (token) {
+    authHeaders["Authorization"] = `Bearer ${token}`;
+  }
 
   const config: RequestInit = {
     method,
     headers: {
       "Content-Type": "application/json",
+      ...authHeaders,
       ...headers,
     },
   };
@@ -37,18 +46,18 @@ async function apiFetch<T>(endpoint: string, options: RequestOptions = {}): Prom
 }
 
 export const api = {
-  get: <T>(endpoint: string, headers?: Record<string, string>) => 
+  get: <T>(endpoint: string, headers?: Record<string, string>) =>
     apiFetch<T>(endpoint, { method: "GET", headers }),
-  
-  post: <T>(endpoint: string, body: any, headers?: Record<string, string>) => 
+
+  post: <T>(endpoint: string, body: any, headers?: Record<string, string>) =>
     apiFetch<T>(endpoint, { method: "POST", body, headers }),
-  
-  put: <T>(endpoint: string, body: any, headers?: Record<string, string>) => 
+
+  put: <T>(endpoint: string, body: any, headers?: Record<string, string>) =>
     apiFetch<T>(endpoint, { method: "PUT", body, headers }),
-  
-  delete: <T>(endpoint: string, headers?: Record<string, string>) => 
+
+  delete: <T>(endpoint: string, headers?: Record<string, string>) =>
     apiFetch<T>(endpoint, { method: "DELETE", headers }),
-    
-  patch: <T>(endpoint: string, body: any, headers?: Record<string, string>) => 
+
+  patch: <T>(endpoint: string, body: any, headers?: Record<string, string>) =>
     apiFetch<T>(endpoint, { method: "PATCH", body, headers }),
 };

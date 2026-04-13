@@ -22,6 +22,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { authService } from "@/services/auth.service";
 import { authStore } from "@/store/auth.store";
+import { ROLE_ROUTES } from "@/lib/constants";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,13 +50,14 @@ export default function LoginPage() {
 
       if (response.success) {
         authStore.setState({
-          user: response.user,
+          user: { id: '', mobile: mobile, identity: response.identity },
           isAuthenticated: true,
           isLoading: false
         });
 
         toast.success("Login successful! Welcome back.");
-        router.push("/");
+        const targetPath = ROLE_ROUTES[response.identity as keyof typeof ROLE_ROUTES] || "/";
+        router.push(targetPath);
       } else {
         toast.error("Login failed. Please check your credentials.");
       }
@@ -108,7 +110,7 @@ export default function LoginPage() {
                   <Input
                     id="mobile"
                     type="tel"
-                    placeholder="9999999999"
+                    placeholder="0000000000"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     className="pl-10 h-11 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all rounded-lg"

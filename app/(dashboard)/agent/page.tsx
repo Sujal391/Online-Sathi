@@ -61,7 +61,7 @@ export default function AgentDashboard() {
     })
 
     return (
-        <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+        <div className="space-y-6">
             <PageHeader
                 title={`Good morning! 👋`}
                 subtitle={`${dateStr} · ${timeStr} · Ready to serve customers`}
@@ -72,7 +72,7 @@ export default function AgentDashboard() {
                     href="/agent/services"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+                    className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 shadow-lg shadow-zinc-200 dark:shadow-none transition-all"
                 >
                     New Transaction <ArrowUpRight size={14} />
                 </motion.a>
@@ -110,8 +110,8 @@ export default function AgentDashboard() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <QuickActions actions={quickActions} />
 
-                <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         Service Mix Today
                     </h3>
                     <div className="space-y-3">
@@ -123,11 +123,11 @@ export default function AgentDashboard() {
                                 transition={{ delay: i * 0.07 + 0.3 }}
                                 className="space-y-1"
                             >
-                                <div className="flex justify-between text-xs text-neutral-500">
+                                <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                                     <span>{s.label}</span>
-                                    <span className="font-medium">{s.pct}%</span>
+                                    <span className="font-medium text-zinc-900 dark:text-zinc-100">{s.pct}%</span>
                                 </div>
-                                <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                                <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${s.pct}%` }}
@@ -159,8 +159,8 @@ export default function AgentDashboard() {
                 />
 
                 {/* earning tracker */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         Today's Earnings Tracker
                     </h3>
                     <div className="space-y-4">
@@ -175,7 +175,7 @@ export default function AgentDashboard() {
                                 initial={{ opacity: 0, y: 6 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.08 + 0.3 }}
-                                className="flex items-center justify-between rounded-xl px-4 py-3 border border-neutral-50"
+                                className="flex items-center justify-between rounded-xl px-4 py-3 border border-zinc-50 dark:border-white/5"
                             >
                                 <div className="flex items-center gap-3">
                                     <div
@@ -183,8 +183,8 @@ export default function AgentDashboard() {
                                         style={{ background: item.color }}
                                     />
                                     <div>
-                                        <p className="text-sm font-medium text-neutral-800">{item.service}</p>
-                                        <p className="text-xs text-neutral-400">{item.count} transactions</p>
+                                        <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{item.service}</p>
+                                        <p className="text-xs text-zinc-400 dark:text-zinc-500">{item.count} transactions</p>
                                     </div>
                                 </div>
                                 <span className="text-sm font-semibold" style={{ color: item.color }}>
@@ -192,9 +192,9 @@ export default function AgentDashboard() {
                                 </span>
                             </motion.div>
                         ))}
-                        <div className="flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3">
-                            <span className="text-sm font-medium text-neutral-300">Total Earned Today</span>
-                            <span className="text-sm font-bold text-white">₹1,220</span>
+                        <div className="flex items-center justify-between rounded-xl bg-zinc-900 dark:bg-white px-4 py-3">
+                            <span className="text-sm font-medium text-zinc-300 dark:text-zinc-700">Total Earned Today</span>
+                            <span className="text-sm font-bold text-white dark:text-zinc-900">₹1,220</span>
                         </div>
                     </div>
                 </div>

@@ -51,7 +51,7 @@ export default function SubAdminDashboard() {
     const targetPct = 78
 
     return (
-        <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+    <div className="space-y-6">
             <PageHeader
                 title="Sub Admin Dashboard"
                 subtitle={today}
@@ -62,7 +62,7 @@ export default function SubAdminDashboard() {
                     href="/sub-admin/reports"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+                    className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 shadow-lg shadow-zinc-200 dark:shadow-none transition-all"
                 >
                     View Reports <ArrowUpRight size={14} />
                 </motion.a>
@@ -76,17 +76,17 @@ export default function SubAdminDashboard() {
                 <QuickActions actions={quickActions} />
 
                 {/* monthly target card */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         Monthly Target
                     </h3>
                     <div className="space-y-5">
                         <div>
                             <div className="mb-2 flex justify-between text-sm">
-                                <span className="text-neutral-600">Volume Target</span>
-                                <span className="font-semibold text-neutral-900">{targetPct}%</span>
+                                <span className="text-zinc-600 dark:text-zinc-400">Volume Target</span>
+                                <span className="font-semibold text-zinc-900 dark:text-zinc-100">{targetPct}%</span>
                             </div>
-                            <div className="h-3 w-full overflow-hidden rounded-full bg-neutral-100">
+                            <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${targetPct}%` }}
@@ -94,7 +94,7 @@ export default function SubAdminDashboard() {
                                     className="h-full rounded-full bg-amber-500"
                                 />
                             </div>
-                            <div className="mt-1.5 flex justify-between text-xs text-neutral-400">
+                            <div className="mt-1.5 flex justify-between text-xs text-zinc-400 dark:text-zinc-500">
                                 <span>₹31 L achieved</span>
                                 <span>₹40 L target</span>
                             </div>
@@ -113,11 +113,11 @@ export default function SubAdminDashboard() {
                                 transition={{ delay: i * 0.07 + 0.5 }}
                                 className="space-y-1"
                             >
-                                <div className="flex justify-between text-xs text-neutral-500">
+                                <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                                     <span>{r.label}</span>
-                                    <span className="font-medium">{Math.min(r.pct, 100)}%</span>
+                                    <span className="font-medium text-zinc-900 dark:text-zinc-100">{Math.min(r.pct, 100)}%</span>
                                 </div>
-                                <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                                <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${Math.min(r.pct, 100)}%` }}
@@ -149,8 +149,8 @@ export default function SubAdminDashboard() {
                 />
 
                 {/* commission breakdown */}
-                <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                         Commission Breakdown
                     </h3>
                     <div className="space-y-3">
@@ -168,7 +168,7 @@ export default function SubAdminDashboard() {
                                 className="flex items-center justify-between rounded-xl px-4 py-3"
                                 style={{ background: `${item.color}08` }}
                             >
-                                <span className="text-sm text-neutral-600">{item.label}</span>
+                                <span className="text-sm text-zinc-600 dark:text-zinc-400">{item.label}</span>
                                 <span className="text-sm font-semibold" style={{ color: item.color }}>
                                     {item.value}
                                 </span>

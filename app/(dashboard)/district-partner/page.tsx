@@ -49,7 +49,7 @@ export default function DistrictPartnerDashboard() {
   })
 
   return (
-    <div className="min-h-screen bg-neutral-50 p-6 space-y-6">
+    <div className="space-y-6">
       <PageHeader
         title="My Agent Network"
         subtitle={today}
@@ -60,7 +60,7 @@ export default function DistrictPartnerDashboard() {
           href="/district-partner/payouts"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+          className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 shadow-lg shadow-zinc-200 dark:shadow-none transition-all"
         >
           Request Payout <ArrowUpRight size={14} />
         </motion.a>
@@ -74,8 +74,8 @@ export default function DistrictPartnerDashboard() {
         <QuickActions actions={quickActions} />
 
         {/* agent performance */}
-        <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
             Agent Performance Today
           </h3>
           <div className="space-y-3">
@@ -93,11 +93,11 @@ export default function DistrictPartnerDashboard() {
                 transition={{ delay: i * 0.07 + 0.3 }}
                 className="space-y-1"
               >
-                <div className="flex justify-between text-xs text-neutral-500">
+                <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400">
                   <span>{a.label}</span>
-                  <span className="font-medium">{a.txn} txns</span>
+                  <span className="font-medium text-zinc-900 dark:text-zinc-100">{a.txn} txns</span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${(a.txn / a.max) * 100}%` }}
@@ -129,14 +129,14 @@ export default function DistrictPartnerDashboard() {
         />
 
         {/* wallet & payout */}
-        <div className="rounded-2xl border border-neutral-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <div className="rounded-2xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/50 p-5 backdrop-blur-sm">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
             Wallet & Payout
           </h3>
-          <div className="mb-4 rounded-xl bg-neutral-900 p-4 text-white">
-            <p className="text-xs text-neutral-400 mb-1">Available Balance</p>
+          <div className="mb-4 rounded-xl bg-zinc-900 dark:bg-white/10 p-4 text-white">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 mb-1">Available Balance</p>
             <p className="text-3xl font-semibold">₹18,400</p>
-            <p className="text-xs text-neutral-400 mt-1">Last topped up: Yesterday, ₹5,000</p>
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">Last topped up: Yesterday, ₹5,000</p>
           </div>
           <div className="space-y-3">
             {[
@@ -152,7 +152,7 @@ export default function DistrictPartnerDashboard() {
                 className="flex items-center justify-between rounded-xl px-4 py-3"
                 style={{ background: `${item.color}08` }}
               >
-                <span className="text-sm text-neutral-600">{item.label}</span>
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">{item.label}</span>
                 <span className="text-sm font-semibold" style={{ color: item.color }}>{item.value}</span>
               </motion.div>
             ))}

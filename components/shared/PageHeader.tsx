@@ -33,10 +33,10 @@ export function PageHeader({
             {badge}
           </span>
         )}
-        <h1 className="text-2xl font-semibold tracking-tight text-neutral-900">
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
           {title}
         </h1>
-        <p className="text-sm text-neutral-500">{subtitle}</p>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">{subtitle}</p>
       </div>
       {children && <div className="flex items-center gap-2">{children}</div>}
     </motion.div>

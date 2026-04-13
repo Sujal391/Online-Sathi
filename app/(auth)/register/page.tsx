@@ -99,7 +99,8 @@ export default function RegisterPage() {
 
     setIsLoading(true);
     try {
-      const response = await authService.register(formData);
+      const { otp, ...registerData } = formData;
+      const response = await authService.register(registerData);
       if (response.success) {
         toast.success("Registration successful!");
         setStep("SUCCESS");
