@@ -11,7 +11,7 @@ import { Step3Experience } from './Step3Experience'
 import { Step4Documents } from './Step4Documents'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, X } from 'lucide-react'
-import { jobProfileService } from '@/services/jobProfile.service'
+import { jobProfileService, JobProfileData } from '@/services/jobProfile.service'
 import { User } from '@/services/auth.service'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -55,7 +55,7 @@ function buildFormValues(
     permanentDistrict: existingProfile?.permanentDistrict || '',
     permanentAddress: existingProfile?.permanentAddress || '',
     permanentPincode: existingProfile?.permanentPincode || '',
-    jobType: existingProfile?.jobType || '',
+    jobType: (existingProfile?.jobType || '') as "Full Time" | "Part time" | "Daily wages" | "",
     jobRole: existingProfile?.jobRole || '',
     skills: existingProfile?.skills || [],
     jobDescription: existingProfile?.jobDescription || '',

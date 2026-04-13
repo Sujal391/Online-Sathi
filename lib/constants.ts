@@ -65,6 +65,7 @@ export const SIDEBAR_ITEMS: Record<string, SidebarItem[]> = {
   USER: [
     { title: "Dashboard", href: "/user", icon: "LayoutDashboard" },
     { title: "Pay Bills", href: "/user/payments", icon: "CreditCard" },
+    { title: "Jobs", href: "/user/jobs", icon: "Briefcase" },
     { title: "Wallet", href: "/user/wallet", icon: "Wallet" },
     { title: "History", href: "/user/history", icon: "History" },
     { title: "Profile", href: "/user/profile", icon: "User" },

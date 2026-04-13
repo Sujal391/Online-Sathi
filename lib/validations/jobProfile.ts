@@ -43,7 +43,7 @@ export const JobProfileSchema = z.object({
   permanentAddress: z.string().min(5, "Address must be descriptive"),
   permanentPincode: z.string().regex(/^\d{6}$/, "Invalid pincode"),
 
-  jobType: z.enum(["Full Time", "Part time", "Daily wages"]),
+  jobType: z.enum(["Full Time", "Part time", "Daily wages"]).or(z.literal("")),
 
   // Step 2: Job & Education
   jobRole: z.string().min(2, "Job role is required"),
