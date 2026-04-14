@@ -44,7 +44,7 @@ export interface JobSearchResponse {
 
 export interface CanViewJobsResponse {
   success: boolean;
-  canView: boolean;
+  canViewJobs: boolean;
   message?: string;
 }
 
@@ -57,6 +57,24 @@ export interface ApplyJobResponse {
   success: boolean;
   message: string;
   applicationId?: string;
+}
+
+export interface JobApplication {
+  id: string;
+  jobId: string;
+  userId: string;
+  status: string;
+  coverLetter: string;
+  resumeUrl: string;
+  appliedAt: string;
+  updatedAt: string;
+  job: Job;
+}
+
+export interface JobApplicationsResponse {
+  success: boolean;
+  count: number;
+  applications: JobApplication[];
 }
 
 export interface AdminJobPostPayload {

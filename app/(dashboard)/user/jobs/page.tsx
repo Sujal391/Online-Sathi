@@ -41,9 +41,9 @@ export default function JobsPage() {
     try {
       setLoading(true);
       const response = await jobService.canViewJobs();
-      setCanView(response.canView);
-      if (response.canView) {
-        fetchJobs();
+      setCanView(response.canViewJobs);
+      if (response.canViewJobs) {
+        await fetchJobs();
       }
     } catch (err) {
       setError("Failed to check job viewing permissions");
@@ -243,7 +243,6 @@ export default function JobsPage() {
                               {job.location}
                             </span>
                             <span className="flex items-center gap-1">
-                              <DollarSign className="h-3.5 w-3.5" />
                               {job.salary}
                             </span>
                             <span className="flex items-center gap-1">

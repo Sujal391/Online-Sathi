@@ -4,6 +4,8 @@ import type {
   CanViewJobsResponse,
   ApplyJobRequest,
   ApplyJobResponse,
+  JobApplication,
+  JobApplicationsResponse,
   Job,
   AdminJobPostPayload,
   CreateAdminJobPostResponse,
@@ -356,9 +358,83 @@ function extractAdminJobsPayload(payload: unknown): {
   };
 }
 
+function normalizeJobApplication(
+  rawApplication: unknown,
+  index: number
+): JobApplication {
+  const source =
+    rawApplication && typeof rawApplication === "object"
+      ? (rawApplication as Record<string, unknown>)
+      : {};
+  const rawJob =
+    source.job && typeof source.job === "object" ? source.job : {};
+
+  return {
+    id:
+      typeof source.id === "string"
+        ? source.id
+        : `application-${index}`,
+    jobId: typeof source.jobId === "string" ? source.jobId : "",
+    userId: typeof source.userId === "string" ? source.userId : "",
+    status: typeof source.status === "string" ? source.status : "PENDING",
+    coverLetter:
+      typeof source.coverLetter === "string" ? source.coverLetter : "",
+    resumeUrl: typeof source.resumeUrl === "string" ? source.resumeUrl : "",
+    appliedAt:
+      typeof source.appliedAt === "string"
+        ? source.appliedAt
+        : new Date().toISOString(),
+    updatedAt:
+      typeof source.updatedAt === "string"
+        ? source.updatedAt
+        : new Date().toISOString(),
+    job: normalizeUserJob(rawJob, index),
+  };
+}
+
+function matchesLocation(job: Job, query?: string): boolean {
+  if (!query) {
+    return true;
+  }
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return true;
+  }
+
+  const searchableFields = [
+    job.location,
+    job.country,
+    job.state,
+    job.district,
+    job.pincode,
+    job.fullAddress,
+  ];
+
+  return searchableFields.some(
+    (field) => typeof field === "string" && field.toLowerCase().includes(normalizedQuery)
+  );
+}
+
 export const jobService = {
   async canViewJobs(): Promise<CanViewJobsResponse> {
-    return api.get("/job-profile/can-view-jobs");
+    const response = await api.get<unknown>("/job-profile/can-view-jobs");
+    const source =
+      response && typeof response === "object"
+        ? (response as Record<string, unknown>)
+        : {};
+
+    return {
+      success: typeof source.success === "boolean" ? source.success : true,
+      canViewJobs:
+        typeof source.canViewJobs === "boolean"
+          ? source.canViewJobs
+          : typeof source.canView === "boolean"
+            ? source.canView
+            : false,
+      message: typeof source.message === "string" ? source.message : undefined,
+    };
   },
 
   async searchJobs(params: {
@@ -379,11 +455,17 @@ export const jobService = {
       `/jobs/search${queryString ? `?${queryString}` : ""}`
     );
     const payload = extractUserJobsPayload(response);
+    const normalizedJobs = payload.jobs.map((job, index) =>
+      normalizeUserJob(job, index)
+    );
+    const filteredJobs = normalizedJobs.filter((job) =>
+      matchesLocation(job, params.location)
+    );
 
     return {
       success: payload.success,
-      jobs: payload.jobs.map((job, index) => normalizeUserJob(job, index)),
-      total: payload.total,
+      jobs: filteredJobs,
+      total: filteredJobs.length,
       page: payload.page,
       limit: payload.limit,
     };
@@ -394,6 +476,28 @@ export const jobService = {
     data: ApplyJobRequest
   ): Promise<ApplyJobResponse> {
     return api.post(`/jobs/${jobId}/apply`, data);
+  },
+
+  async getMyApplications(): Promise<JobApplicationsResponse> {
+    const response = await api.get<unknown>("/jobs/applications/my");
+    const source =
+      response && typeof response === "object"
+        ? (response as Record<string, unknown>)
+        : {};
+    const rawApplications = Array.isArray(source.applications)
+      ? source.applications
+      : [];
+
+    return {
+      success: typeof source.success === "boolean" ? source.success : true,
+      count:
+        typeof source.count === "number"
+          ? source.count
+          : rawApplications.length,
+      applications: rawApplications.map((application, index) =>
+        normalizeJobApplication(application, index)
+      ),
+    };
   },
 
   async createAdminJobPost(
