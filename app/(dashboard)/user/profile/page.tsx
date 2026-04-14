@@ -56,222 +56,271 @@ export default function UserProfilePage() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-8"
+      className="space-y-10"
     >
       {/* Account Info Card */}
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white p-8 dark:border-white/5 dark:bg-zinc-900/50">
-        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/5 blur-3xl" />
-        <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-indigo-500/5 blur-3xl" />
+      <div className="group relative overflow-hidden rounded-[2.5rem] border border-zinc-200 bg-white p-10 dark:border-white/5 dark:bg-zinc-900/50 shadow-sm transition-all hover:shadow-xl hover:shadow-blue-500/5">
+        <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-blue-500/5 blur-[100px] transition-all group-hover:bg-blue-500/10" />
+        <div className="absolute -left-32 -bottom-32 h-96 w-96 rounded-full bg-indigo-500/5 blur-[100px] transition-all group-hover:bg-indigo-500/10" />
 
-        <div className="relative flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center">
-            <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-zinc-100 ring-8 ring-zinc-50 dark:bg-white/5 dark:ring-white/5">
-              <UserIcon size={40} className="text-blue-600" />
+        <div className="relative flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center">
+            <div className="relative">
+              <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-2xl shadow-blue-500/30">
+                <UserIcon size={48} className="drop-shadow-sm" />
+              </div>
+              {jobProfile && (
+                <div className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-lg ring-4 ring-white dark:ring-zinc-900">
+                  <CheckCircle2 size={18} />
+                </div>
+              )}
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{user?.fullName}</h2>
-              <div className="mt-1 flex items-center gap-2">
-                <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400">
-                  {user?.approvalStatus || 'APPROVED'}
+            <div className="space-y-2">
+              <h2 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">{user?.fullName}</h2>
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 px-3 py-1 rounded-full dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20">
+                  <span className="flex items-center gap-1.5 capitalize">
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    {user?.approvalStatus?.toLowerCase() || 'active profile'}
+                  </span>
                 </Badge>
-                <span className="text-xs text-zinc-400">Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'recent'}</span>
+                <div className="h-1 w-1 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                <span className="text-sm font-medium text-zinc-500">Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) : 'recent'}</span>
               </div>
             </div>
           </div>
 
           <Button
             onClick={() => setIsEditing(true)}
-            className="group h-12 gap-2 rounded-2xl bg-zinc-900 px-6 font-semibold text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="group h-14 gap-3 rounded-2xl bg-zinc-900 px-8 font-bold text-white shadow-xl shadow-zinc-200 transition-all hover:-translate-y-1 hover:bg-zinc-800 hover:shadow-2xl dark:bg-white dark:text-zinc-900 dark:shadow-none dark:hover:bg-zinc-200"
           >
-            <Edit3 size={18} className="transition-transform group-hover:rotate-12" />
-            {jobProfile ? 'Manage Profile' : 'Create Job Profile'}
+            <Edit3 size={20} className="transition-transform group-hover:rotate-12" />
+            {jobProfile ? 'Edit Job Profile' : 'Build Profile'}
+            <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Button>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 xl:grid-cols-4">
-          <InfoCard icon={<Mail size={18} />} label="Email Address" value={user?.email || jobProfile?.email} />
-          <InfoCard icon={<Phone size={18} />} label="Phone Number" value={user?.mobile || jobProfile?.phoneNumber} />
-          <InfoCard icon={<Calendar size={18} />} label="Date of Birth" value={user?.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : (jobProfile?.dateOfBirth ? new Date(jobProfile.dateOfBirth).toLocaleDateString() : 'N/A')} />
-          <InfoCard icon={<UserCircle size={18} />} label="Gender" value={user?.gender || jobProfile?.gender} />
+        <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          <InfoCard icon={<Mail size={20} className="text-blue-500" />} label="Email Address" value={user?.email || jobProfile?.email} />
+          <InfoCard icon={<Phone size={20} className="text-indigo-500" />} label="Contact" value={user?.mobile || jobProfile?.phoneNumber} />
+          <InfoCard icon={<Calendar size={20} className="text-purple-500" />} label="Date of Birth" value={user?.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : (jobProfile?.dateOfBirth ? new Date(jobProfile.dateOfBirth).toLocaleDateString() : 'N/A')} />
+          <InfoCard icon={<UserCircle size={20} className="text-emerald-500" />} label="Gender" value={user?.gender || jobProfile?.gender} />
         </div>
       </div>
 
       {jobProfile ? (
         <JobProfileDetailView profile={jobProfile} />
       ) : (
-        <div className="rounded-3xl border border-dashed border-zinc-200 bg-zinc-50/50 p-12 text-center dark:border-white/5 dark:bg-white/5">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-zinc-300 shadow-sm dark:bg-zinc-900">
-            <Briefcase size={32} />
+        <div className="group relative overflow-hidden rounded-[2.5rem] border-2 border-dashed border-zinc-200 bg-zinc-50/30 p-20 text-center transition-all hover:border-blue-300 dark:border-white/10 dark:bg-white/5">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-indigo-500/0 opacity-0 transition-opacity group-hover:opacity-5 group-hover:to-indigo-500/10" />
+          <div className="relative">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-3xl bg-white text-zinc-300 shadow-xl transition-transform group-hover:scale-110 group-hover:rotate-3 dark:bg-zinc-900">
+              <Briefcase size={40} className="text-zinc-200 group-hover:text-blue-400 transition-colors" />
+            </div>
+            <h3 className="mt-8 text-2xl font-bold text-zinc-900 dark:text-zinc-100">Unlock Career Opportunities</h3>
+            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
+              Your professional profile is currently empty. Completing it increases your visibility to recruiters by <span className="text-blue-600 font-bold">80%</span>.
+            </p>
+            <Button
+              onClick={() => setIsEditing(true)}
+              className="mt-10 h-14 rounded-2xl bg-blue-600 px-10 font-bold text-white shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-2xl dark:shadow-none transition-all"
+            >
+              Start Building Now
+              <ChevronRight size={20} className="ml-2" />
+            </Button>
           </div>
-          <h3 className="mt-6 text-lg font-bold text-zinc-900 dark:text-zinc-100">No Job Profile Yet</h3>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-zinc-500 dark:text-zinc-400">
-            Your professional profile is currently empty. Build your profile to get matched with the best jobs in your area.
-          </p>
-          <Button
-            variant="link"
-            onClick={() => setIsEditing(true)}
-            className="mt-4 font-bold text-blue-600 hover:text-blue-700"
-          >
-            Start Building Now &rarr;
-          </Button>
         </div>
       )}
     </motion.div>
   )
 
   const InfoCard = ({ icon, label, value }: { icon: React.ReactNode, label: string, value?: string }) => (
-    <div className="flex flex-col gap-2 min-w-0">
-      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
-        {icon}
+    <div className="flex flex-col gap-3 group/info">
+      <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-[0.1em] text-zinc-400">
+        <div className="p-2 rounded-xl bg-zinc-50 dark:bg-white/5 transition-transform group-hover/info:scale-110 group-hover/info:bg-white group-hover/info:shadow-md dark:group-hover/info:bg-white/10">
+          {icon}
+        </div>
         <span className="truncate">{label}</span>
       </div>
-      <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 break-all sm:break-words">
+      <div className="pl-1 text-[1.05rem] font-bold text-zinc-900 dark:text-zinc-100 break-all sm:break-words">
         {value || 'Not provided'}
       </div>
     </div>
   )
 
   const JobProfileDetailView = ({ profile }: { profile: JobProfileData & { profileStatus: string } }) => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Professional Info */}
-        <Card className="lg:col-span-2 p-8 rounded-3xl border-zinc-200 dark:border-white/5 space-y-8">
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                <Briefcase className="text-blue-600" size={22} />
-                Professional Summary
+        <Card className="lg:col-span-2 p-10 rounded-[2.5rem] border-zinc-200 dark:border-white/5 space-y-10 shadow-sm">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-extrabold flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10">
+                  <Briefcase size={24} />
+                </div>
+                Professional Profile
               </h3>
-              <p className="text-zinc-500 text-sm">Overview of your professional background</p>
+              <p className="text-zinc-500 font-medium">Detailed overview of your professional scope</p>
             </div>
-            <Badge className={cn(
-              "rounded-lg px-3 py-1",
-              profile.profileStatus === 'VERIFIED' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-orange-50 text-orange-600 border-orange-100"
-            )}>
-              {profile.profileStatus}
-            </Badge>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Desired Job Role</label>
-              <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{profile.jobRole}</p>
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Job Type</label>
-              <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{profile.jobType}</p>
-            </div>
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Professional Bio</label>
-              <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{profile.jobDescription}</p>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-zinc-50 dark:bg-white/5 border border-zinc-100 dark:border-white/10">
+              <div className={cn(
+                "h-2 w-2 rounded-full",
+                profile.profileStatus === 'VERIFIED' ? "bg-emerald-500" : "bg-orange-500"
+              )} />
+              <span className="text-xs font-bold uppercase tracking-widest">{profile.profileStatus}</span>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest block">Skills & Expertise</label>
-            <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Target Role</label>
+              <p className="text-xl font-bold bg-gradient-to-r from-zinc-900 to-zinc-600 bg-clip-text text-transparent dark:from-white dark:to-zinc-400">
+                {profile.jobRole}
+              </p>
+            </div>
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Employment Type</label>
+              <Badge variant="outline" className="text-sm font-semibold rounded-xl px-4 py-1 border-zinc-200">
+                {profile.jobType}
+              </Badge>
+            </div>
+            <div className="md:col-span-2 space-y-3">
+              <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">About Professional Journey</label>
+              <p className="text-[1.05rem] leading-[1.8] text-zinc-600 dark:text-zinc-400 font-medium whitespace-pre-wrap">{profile.jobDescription}</p>
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest block underline decoration-blue-500/30 underline-offset-8">Expertise & Technical Skills</label>
+            <div className="flex flex-wrap gap-3">
               {profile.skills.map((skill) => (
-                <Badge key={skill} variant="outline" className="rounded-xl px-4 py-1.5 border-blue-100 bg-blue-50/30 text-blue-700 dark:border-blue-900/30 dark:bg-blue-900/20 dark:text-blue-300">
-                  {skill}
-                </Badge>
+                <div key={skill} className="group/skill relative">
+                  <div className="absolute inset-0 bg-blue-600 rounded-2xl blur-md opacity-0 transition-opacity group-hover/skill:opacity-20" />
+                  <Badge className="relative rounded-2xl px-5 py-2.5 border-blue-100 bg-white text-blue-700 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-300 dark:border-blue-900/30 dark:bg-blue-900/20 dark:text-blue-300">
+                    {skill}
+                  </Badge>
+                </div>
               ))}
             </div>
           </div>
         </Card>
 
         {/* Sidebar Info - Experience/Languages */}
-        <div className="space-y-6">
-          <Card className="p-6 rounded-3xl border-zinc-200 dark:border-white/5 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600">
-                <Award size={20} />
+        <div className="space-y-8">
+          <Card className="p-8 rounded-[2.5rem] border-zinc-200 dark:border-white/5 space-y-8 shadow-sm">
+            <div className="flex items-center gap-5">
+              <div className="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 shadow-inner">
+                <Award size={28} />
               </div>
               <div>
-                <p className="text-xs font-bold text-zinc-400 uppercase">Total Experience</p>
-                <p className="text-lg font-bold">{profile.totalExperience} Year{profile.totalExperience !== 1 ? 's' : ''}</p>
+                <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Experience</p>
+                <p className="text-2xl font-black">{profile.totalExperience} Year{profile.totalExperience !== 1 ? 's' : ''}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600">
-                <Languages size={20} />
+            <div className="h-px bg-zinc-100 dark:bg-white/5" />
+
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                <Languages size={18} className="text-emerald-500" />
+                Languages
               </div>
-              <div>
-                <p className="text-xs font-bold text-zinc-400 uppercase">Languages Known</p>
-                <div className="flex flex-wrap gap-1.5 mt-1">
-                  {profile.languages.map((lang, i) => (
-                    <React.Fragment key={lang}>
-                      <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">{lang}</span>
-                      {i < profile.languages.length - 1 && <span className="text-zinc-400">, </span>}
-                    </React.Fragment>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-2">
+                {profile.languages.map((lang) => (
+                  <span key={lang} className="text-sm font-bold px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                    {lang}
+                  </span>
+                ))}
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 rounded-3xl border-zinc-200 dark:border-white/5 bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-xl shadow-blue-200 dark:shadow-none">
-            <div className="space-y-4">
-              <CheckCircle2 size={32} />
-              <div className="space-y-1">
-                <h4 className="font-bold">Verified Professional</h4>
-                <p className="text-xs text-blue-100 leading-relaxed">Your identity and skills have been processed. You are eligible for premium job matches.</p>
+          <div className="relative overflow-hidden p-8 rounded-[2.5rem] bg-gradient-to-br from-zinc-900 to-black text-white shadow-2xl">
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/20 blur-2xl" />
+            <div className="relative space-y-6">
+              <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md">
+                <CheckCircle2 size={24} className="text-emerald-400" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-xl font-bold tracking-tight">Verified Professional</h4>
+                <p className="text-sm text-zinc-400 leading-relaxed font-medium">Your global identity has been established. You are now prioritized for premium career matches.</p>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
 
-      {/* Experience & Education */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Education Section */}
-        <Card className="p-8 rounded-3xl border-zinc-200 dark:border-white/5 space-y-6">
-          <h3 className="text-lg font-bold flex items-center gap-2">
-            <GraduationCap className="text-indigo-600" size={20} />
-            Education History
-          </h3>
-          <div className="space-y-6">
+      {/* Experience & Education Timelines */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Education Timeline */}
+        <Card className="p-10 rounded-[2.5rem] border-zinc-200 dark:border-white/5 space-y-8 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+                <GraduationCap size={22} />
+              </div>
+              Education
+            </h3>
+          </div>
+          <div className="space-y-10 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-100 dark:before:bg-white/5">
             {profile.education.map((edu, idx) => (
-              <div key={idx} className="relative pl-8 before:absolute before:left-[11px] before:top-2 before:bottom-0 before:w-0.5 before:bg-zinc-100 dark:before:bg-white/5 last:before:hidden">
-                <div className="absolute left-0 top-1 w-6 h-6 rounded-full bg-white dark:bg-zinc-900 border-4 border-indigo-600 z-10" />
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <p className="font-bold text-zinc-900 dark:text-zinc-100">{edu.degree} ({edu.level})</p>
-                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-md">{edu.passingYear}</span>
+              <div key={idx} className="relative pl-12 group/item">
+                <div className="absolute left-0 top-1 w-10 h-10 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-100 dark:border-white/10 flex items-center justify-center z-10 shadow-sm transition-all group-hover/item:border-indigo-500 group-hover/item:scale-110">
+                  <div className="w-3 h-3 rounded-full bg-indigo-600" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{edu.degree}</p>
+                    <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase tracking-widest">{edu.passingYear}</span>
                   </div>
-                  <p className="text-sm text-zinc-500 flex items-center gap-1.5">
-                    <Building2 size={14} /> {edu.schoolName}
+                  <p className="font-bold text-zinc-400 text-sm">{edu.level}</p>
+                  <p className="text-sm font-medium text-zinc-500 flex items-center gap-2">
+                    <Building2 size={16} className="text-zinc-300" /> {edu.schoolName}
                   </p>
-                  <p className="text-xs font-semibold text-emerald-600 mt-1">Grade/Percentage: {edu.percentage}</p>
+                  <div className="mt-2 text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 inline-block px-2 py-0.5 rounded">
+                    Result: {edu.percentage}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </Card>
 
-        {/* Work Experience Section */}
-        <Card className="p-8 rounded-3xl border-zinc-200 dark:border-white/5 space-y-6">
-          <h3 className="text-lg font-bold flex items-center gap-2">
-            <Building2 className="text-emerald-600" size={20} />
-            Work Experience
-          </h3>
-          <div className="space-y-6">
+        {/* Work Timeline */}
+        <Card className="p-10 rounded-[2.5rem] border-zinc-200 dark:border-white/5 space-y-8 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+                <Building2 size={22} />
+              </div>
+              Experience
+            </h3>
+          </div>
+          <div className="space-y-10 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-100 dark:before:bg-white/5">
             {profile.workExperience.map((exp, idx) => (
-              <div key={idx} className="relative pl-8 before:absolute before:left-[11px] before:top-2 before:bottom-0 before:w-0.5 before:bg-zinc-100 dark:before:bg-white/5 last:before:hidden">
-                <div className="absolute left-0 top-1 w-6 h-6 rounded-full bg-white dark:bg-zinc-900 border-4 border-emerald-500 z-10" />
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <p className="font-bold text-zinc-900 dark:text-zinc-100">{exp.jobRole}</p>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-md">
+              <div key={idx} className="relative pl-12 group/item">
+                <div className="absolute left-0 top-1 w-10 h-10 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-100 dark:border-white/10 flex items-center justify-center z-10 shadow-sm transition-all group-hover/item:border-emerald-500 group-hover/item:scale-110">
+                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{exp.jobRole}</p>
+                    <span className={cn(
+                      "text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest",
+                      exp.currentlyWorking ? "bg-emerald-500 text-white" : "bg-zinc-100 text-zinc-500 dark:bg-white/10 dark:text-zinc-400"
+                    )}>
                       {exp.startDate} — {exp.currentlyWorking ? 'Present' : exp.endDate}
                     </span>
                   </div>
-                  <p className="text-sm text-zinc-500 font-medium">{exp.companyName}</p>
-                  <div className="flex items-center gap-4 mt-2">
-                    <p className="text-xs text-zinc-400 flex items-center gap-1">
-                      <MapPin size={12} /> {exp.city}, {exp.country}
-                    </p>
-                    <p className="text-xs font-bold text-blue-600">₹{exp.salary.toLocaleString()}/mo</p>
+                  <p className="font-bold text-zinc-400 text-sm">{exp.companyName}</p>
+                  <div className="flex flex-wrap items-center gap-6 mt-3">
+                    <div className="flex items-center gap-2 text-xs font-medium text-zinc-500">
+                      <MapPin size={16} className="text-zinc-300" /> {exp.city}, {exp.country}
+                    </div>
+                    <div className="text-xs font-black text-blue-600 tabular-nums">
+                      ₹{exp.salary.toLocaleString()}/mo
+                    </div>
                   </div>
                 </div>
               </div>
@@ -297,83 +346,17 @@ export default function UserProfilePage() {
         </div>
       </PageHeader>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        {/* sidebar info */}
-        <div className="lg:col-span-4 space-y-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-white/5 dark:bg-zinc-900/50"
-          >
-            <div className="flex flex-col items-center text-center">
-              <div className="relative mb-4">
-                <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-blue-600 text-white shadow-xl shadow-blue-200 dark:shadow-none">
-                  <UserIcon size={48} />
-                </div>
-                {jobProfile && (
-                  <div className="absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-lg">
-                    <CheckCircle2 size={16} />
-                  </div>
-                )}
-              </div>
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{user?.fullName || 'Complete Your Profile'}</h3>
-              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                {jobProfile ? (
-                  <>Your profile is <span className="font-bold text-emerald-600">Active</span> and matching with local job opportunities.</>
-                ) : (
-                  <>A complete job profile increases your chances of getting noticed by recruiters by <span className="font-bold text-blue-600">80%</span>.</>
-                )}
-              </p>
-            </div>
-
-            <div className="mt-8 space-y-4">
-              <div className="rounded-2xl border border-dashed border-zinc-100 p-4 dark:border-white/5">
-                <div className="mb-2 flex justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                  <span>Profile Strength</span>
-                  <span className="text-blue-600">{jobProfile ? 'Excellent' : isEditing ? 'Drafting' : 'Beginner'}</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/5">
-                  <div className="h-full bg-blue-600 transition-all duration-500" style={{ width: jobProfile ? '100%' : isEditing ? '25%' : '10%' }} />
-                </div>
-              </div>
-
-              <ul className="space-y-3">
-                {[
-                  { label: 'Account Verified', active: !!user },
-                  { label: 'Job Preferences', active: !!jobProfile },
-                  { label: 'Skills & Education', active: !!jobProfile },
-                  { label: 'Work Experience', active: !!jobProfile && jobProfile.workExperience.length > 0 },
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-zinc-500">
-                    <div className={`h-1.5 w-1.5 rounded-full ${item.active ? 'bg-emerald-500' : 'bg-zinc-200 dark:bg-zinc-700'}`} />
-                    {item.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-
-          <div className="rounded-3xl border border-blue-100 bg-blue-50/50 p-6 dark:border-blue-900/20 dark:bg-blue-950/10">
-            <h4 className="text-sm font-bold text-blue-900 dark:text-blue-300">Why build a Saathi profile?</h4>
-            <p className="mt-2 text-xs leading-relaxed text-blue-800/70 dark:text-blue-400/70">
-              Build a digital resume that works for you. Get notified for jobs matching your skills and experience in your locality.
-            </p>
-          </div>
-        </div>
-
-        {/* main content */}
-        <div className="lg:col-span-8">
-          {isEditing ? (
-            <JobProfileCoordinator
-              initialData={user}
-              existingProfile={jobProfile}
-              onSuccess={fetchProfileData}
-              onClose={() => setIsEditing(false)}
-            />
-          ) : (
-            <ProfileInfoView />
-          )}
-        </div>
+      <div className="max-w-5xl">
+        {isEditing ? (
+          <JobProfileCoordinator
+            initialData={user}
+            existingProfile={jobProfile}
+            onSuccess={fetchProfileData}
+            onClose={() => setIsEditing(false)}
+          />
+        ) : (
+          <ProfileInfoView />
+        )}
       </div>
     </div>
   )

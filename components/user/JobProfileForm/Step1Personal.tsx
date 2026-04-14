@@ -4,6 +4,7 @@ import * as React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Languages } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { locationService, type Country, type State, type District } from '@/services/location.service'
@@ -100,75 +101,92 @@ export function Step1Personal() {
   }
 
   return (
-    <div className="space-y-10">
-      <div>
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">Personal Details</h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">Please provide your basic information</p>
+    <div className="space-y-12">
+      <div className="relative">
+        <div className="flex items-center gap-4 mb-2">
+          <div className="h-8 w-1 bg-blue-600 rounded-full" />
+          <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-100">Personal Identity</h2>
+        </div>
+        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Basic details for your professional profile</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label>Full Name</Label>
-          <Input {...register('fullName')} disabled placeholder="e.g. John Doe" aria-invalid={!!errors.fullName} className="bg-zinc-50 dark:bg-zinc-900/50 cursor-not-allowed opacity-70" />
-          {errors.fullName && <p className="text-xs text-red-500">{errors.fullName.message}</p>}
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Full Name</Label>
+          <Input {...register('fullName')} disabled placeholder="e.g. John Doe" aria-invalid={!!errors.fullName} className="h-12 bg-zinc-50 border-zinc-200 dark:bg-zinc-900/50 cursor-not-allowed opacity-70 rounded-xl" />
+          {errors.fullName && <p className="text-xs font-medium text-red-500">{errors.fullName.message}</p>}
         </div>
-        <div className="space-y-2">
-          <Label>Phone Number</Label>
-          <Input {...register('phoneNumber')} disabled placeholder="e.g. 9841234567" aria-invalid={!!errors.phoneNumber} className="bg-zinc-50 dark:bg-zinc-900/50 cursor-not-allowed opacity-70" />
-          {errors.phoneNumber && <p className="text-xs text-red-500">{errors.phoneNumber.message}</p>}
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Phone Number</Label>
+          <Input {...register('phoneNumber')} disabled placeholder="e.g. 9841234567" aria-invalid={!!errors.phoneNumber} className="h-12 bg-zinc-50 border-zinc-200 dark:bg-zinc-900/50 cursor-not-allowed opacity-70 rounded-xl" />
+          {errors.phoneNumber && <p className="text-xs font-medium text-red-500">{errors.phoneNumber.message}</p>}
         </div>
-        <div className="space-y-2">
-          <Label>Email</Label>
-          <Input {...register('email')} placeholder="e.g. john@example.com" aria-invalid={!!errors.email} className="bg-zinc-50 dark:bg-zinc-900/50 cursor-not-allowed opacity-70" />
-          {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Email Address</Label>
+          <Input {...register('email')} placeholder="e.g. john@example.com" aria-invalid={!!errors.email} className="h-12 rounded-xl focus:ring-blue-500/10 transition-all shadow-sm" />
+          {errors.email && <p className="text-xs font-medium text-red-500">{errors.email.message}</p>}
         </div>
-        <div className="space-y-2">
-          <Label>Date of Birth</Label>
-          <Input type="date" {...register('dateOfBirth')} disabled aria-invalid={!!errors.dateOfBirth} className="bg-zinc-50 dark:bg-zinc-900/50 cursor-not-allowed opacity-70" />
-          {errors.dateOfBirth && <p className="text-xs text-red-500">{errors.dateOfBirth.message}</p>}
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Date of Birth</Label>
+          <Input type="date" {...register('dateOfBirth')} disabled aria-invalid={!!errors.dateOfBirth} className="h-12 bg-zinc-50 border-zinc-200 dark:bg-zinc-900/50 cursor-not-allowed opacity-70 rounded-xl" />
+          {errors.dateOfBirth && <p className="text-xs font-medium text-red-500">{errors.dateOfBirth.message}</p>}
         </div>
-        <div className="space-y-2">
-          <Label>Gender</Label>
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Gender</Label>
           <div className="opacity-70 pointer-events-none">
             <Select disabled onValueChange={(v) => setValue('gender', v as any, { shouldDirty: true, shouldValidate: true })} value={watch('gender')}>
-              <SelectTrigger className="bg-zinc-50 dark:bg-zinc-900/50"><SelectValue placeholder="Select Gender" /></SelectTrigger>
+              <SelectTrigger className="h-12 bg-zinc-50 border-zinc-200 rounded-xl"><SelectValue placeholder="Select Gender" /></SelectTrigger>
               <SelectContent>
                 {['Male', 'Female', 'Other'].map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
-          {errors.gender && <p className="text-xs text-red-500">{errors.gender.message}</p>}
+          {errors.gender && <p className="text-xs font-medium text-red-500">{errors.gender.message}</p>}
         </div>
-        <div className="space-y-2">
-          <Label>Marital Status</Label>
+        <div className="space-y-3 group/field">
+          <Label className="text-xs font-black uppercase tracking-widest text-zinc-400 group-focus-within/field:text-blue-600 transition-colors">Marital Status</Label>
           <Select onValueChange={(v) => setValue('maritalStatus', v as any, { shouldDirty: true, shouldValidate: true })} value={watch('maritalStatus')}>
-            <SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger>
+            <SelectTrigger className="h-12 rounded-xl shadow-sm focus:ring-blue-500/10 transition-all"><SelectValue placeholder="Select Status" /></SelectTrigger>
             <SelectContent>
               {['Married', 'Unmarried', 'Divorced'].map(v => <SelectItem key={v} value={v}>{v}</SelectItem>)}
             </SelectContent>
           </Select>
-          {errors.maritalStatus && <p className="text-xs text-red-500">{errors.maritalStatus.message}</p>}
+          {errors.maritalStatus && <p className="text-xs font-medium text-red-500">{errors.maritalStatus.message}</p>}
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 border-b border-zinc-100 dark:border-white/5 pb-2">
-          <Label className="text-base font-semibold">Languages Known</Label>
-          <span className="text-xs text-zinc-400 font-normal">(Select at least one)</span>
+      <div className="p-8 rounded-3xl bg-zinc-50 dark:bg-white/5 space-y-6">
+        <div className="flex items-center gap-3 mb-2">
+          <Languages className="text-blue-600" size={20} />
+          <Label className="text-base font-black tracking-tight">Languages Known</Label>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {LANGUAGES.map(lang => (
-            <div key={lang} className="flex items-center space-x-2">
-              <Checkbox
-                id={`lang-${lang}`}
-                checked={languagesSelected.includes(lang)}
-                onCheckedChange={(checked) => handleLanguageToggle(lang, checked as boolean)}
-              />
-              <Label htmlFor={`lang-${lang}`} className="text-sm cursor-pointer">{lang}</Label>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {LANGUAGES.map(lang => {
+            const isSelected = languagesSelected.includes(lang)
+            return (
+              <div key={lang} className="relative group/lang">
+                <Checkbox
+                  id={`lang-${lang}`}
+                  checked={isSelected}
+                  onCheckedChange={(checked) => handleLanguageToggle(lang, checked as boolean)}
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor={`lang-${lang}`}
+                  className={cn(
+                    "flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all cursor-pointer text-sm font-bold",
+                    isSelected
+                      ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm dark:bg-blue-600/10 dark:text-blue-400"
+                      : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-300 dark:border-white/10 dark:bg-zinc-900"
+                  )}
+                >
+                  {lang}
+                </Label>
+              </div>
+            )
+          })}
         </div>
-        {errors.languages && <p className="text-xs text-red-500">{errors.languages.message}</p>}
+        {errors.languages && <p className="text-xs font-medium text-red-500">{errors.languages.message}</p>}
       </div>
 
       <div className="space-y-6">
