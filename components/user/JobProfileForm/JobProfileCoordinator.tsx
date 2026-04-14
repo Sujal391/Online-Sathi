@@ -281,14 +281,14 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
       </div>
 
       {/* progress indicator */}
-      <div className="mb-10 px-4">
+      <div className="mb-12 px-6">
         <div className="relative flex justify-between">
-          <div className="absolute top-5 left-0 h-0.5 w-full bg-zinc-100 dark:bg-white/5" />
+          <div className="absolute top-[1.35rem] left-0 h-[3px] w-full bg-zinc-100 dark:bg-white/5 rounded-full" />
           <motion.div
-            className="absolute top-5 left-0 h-0.5 bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.4)]"
+            className="absolute top-[1.35rem] left-0 h-[3px] bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)]"
             initial={{ width: '0%' }}
             animate={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
-            transition={{ type: 'spring', stiffness: 50, damping: 20 }}
+            transition={{ type: 'spring', stiffness: 40, damping: 15 }}
           />
 
           {STEPS.map((step) => {
@@ -298,23 +298,27 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
             return (
               <div key={step.id} className="relative z-10 flex flex-col items-center">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   type="button"
                   onClick={() => isCompleted && setCurrentStep(step.id)}
                   className={cn(
-                    "flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all duration-300",
-                    isActive ? "border-blue-600 bg-white text-blue-600 shadow-lg dark:bg-zinc-900" :
-                      isCompleted ? "border-blue-600 bg-blue-600 text-white" :
+                    "flex h-11 w-11 items-center justify-center rounded-2xl border-2 transition-all duration-500",
+                    isActive ? "border-blue-600 bg-white text-blue-600 shadow-[0_8px_20px_rgba(37,99,235,0.2)] dark:bg-zinc-900 ring-4 ring-blue-50 dark:ring-blue-900/10" :
+                      isCompleted ? "border-blue-600 bg-blue-600 text-white shadow-lg" :
                         "border-zinc-200 bg-white text-zinc-400 dark:border-white/10 dark:bg-zinc-900"
                   )}
                 >
-                  {isCompleted ? <CheckCircle2 size={20} /> : <span>{step.id}</span>}
+                  {isCompleted ? <CheckCircle2 size={22} className="animate-in zoom-in-50 duration-300" /> : <span className="text-sm font-bold">{step.id}</span>}
                 </motion.button>
-                <div className="mt-3 text-center hidden sm:block">
-                  <p className={cn("text-xs font-semibold uppercase tracking-wider", isActive ? "text-blue-600" : "text-zinc-400")}>
+                <div className="mt-4 text-center hidden sm:block">
+                  <p className={cn(
+                    "text-[10px] font-black uppercase tracking-[0.15em]",
+                    isActive ? "text-blue-600" : "text-zinc-400"
+                  )}>
                     {step.title}
                   </p>
+                  <p className="text-[10px] text-zinc-400 mt-1 font-medium">{step.description.split(' ')[0]}...</p>
                 </div>
               </div>
             )
@@ -322,16 +326,19 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
         </div>
       </div>
 
-      <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-xl shadow-zinc-200/50 dark:border-white/5 dark:bg-zinc-900/50 dark:shadow-none backdrop-blur-sm sm:p-10">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-zinc-200 bg-white p-6 shadow-[0_20px_50px_rgba(0,0,0,0.05)] shadow-zinc-200/50 dark:border-white/5 dark:bg-zinc-900/50 dark:shadow-none backdrop-blur-md sm:p-12">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-32 -mt-32" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -ml-32 -mb-32" />
+        
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-10">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1.02, y: -10 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               >
                 {currentStep === 1 && <Step1Personal />}
                 {currentStep === 2 && <Step2JobEducation />}
@@ -340,16 +347,16 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex items-center justify-between pt-6 border-t border-zinc-100 dark:border-white/5">
-              <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10 border-t border-zinc-100 dark:border-white/5">
+              <div className="flex gap-4 w-full sm:w-auto">
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="outline"
                   onClick={prev}
                   disabled={currentStep === 1 || isSubmitting}
-                  className="rounded-xl px-6"
+                  className="flex-1 sm:flex-none rounded-2xl h-14 px-8 font-bold border-zinc-200 hover:bg-zinc-50 dark:border-white/10 dark:hover:bg-white/5 transition-all active:scale-95"
                 >
-                  <ChevronLeft size={18} className="mr-2" /> Back
+                  <ChevronLeft size={20} className="mr-2" /> Back
                 </Button>
                 {onClose && (
                   <Button
@@ -357,7 +364,7 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
                     variant="ghost"
                     onClick={onClose}
                     disabled={isSubmitting}
-                    className="rounded-xl text-zinc-400 hover:text-red-500 hidden sm:flex"
+                    className="flex-1 sm:flex-none rounded-2xl h-14 px-6 text-zinc-400 font-bold hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all active:scale-95"
                   >
                     Cancel
                   </Button>
@@ -368,29 +375,26 @@ export function JobProfileCoordinator({ initialData, existingProfile, onSuccess,
                 <Button
                   type="button"
                   onClick={next}
-                  className="rounded-xl bg-blue-600 px-8 py-6 text-base font-semibold text-white shadow-lg shadow-blue-200 hover:bg-blue-700 dark:shadow-none transition-all hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto rounded-2xl bg-zinc-900 h-14 px-12 text-base font-bold text-white shadow-xl shadow-zinc-200 transition-all hover:bg-zinc-800 hover:-translate-y-1 hover:shadow-2xl dark:bg-white dark:text-zinc-900 dark:shadow-none dark:hover:bg-zinc-200 active:scale-95"
                 >
-                  Continue <ChevronRight size={18} className="ml-2" />
+                  Next Step <ChevronRight size={20} className="ml-2" />
                 </Button>
               ) : (
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="rounded-xl bg-emerald-600 px-10 py-6 text-base font-semibold text-white shadow-lg shadow-emerald-200 hover:bg-emerald-700 dark:shadow-none transition-all hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 h-14 px-14 text-base font-bold text-white shadow-xl shadow-emerald-200/50 transition-all hover:-translate-y-1 hover:shadow-2xl dark:shadow-none active:scale-95"
                 >
                   {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      {!isUpdateMode && methods.watch('transactionType') === 'ONLY_PROFILE'
-                        ? 'Processing Payment...'
-                        : (isUpdateMode ? 'Updating Profile...' : 'Creating Profile...')}
-                    </>
+                    <div className="flex items-center gap-3">
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <span>Processing...</span>
+                    </div>
                   ) : (
-                    <>
-                      {!isUpdateMode && methods.watch('transactionType') === 'ONLY_PROFILE'
-                        ? 'Pay & Finish'
-                        : (isUpdateMode ? 'Save Changes' : 'Complete Registration')} <CheckCircle2 size={18} className="ml-2" />
-                    </>
+                    <div className="flex items-center gap-3">
+                      <span>{!isUpdateMode && methods.watch('transactionType') === 'ONLY_PROFILE' ? 'Pay & Complete' : (isUpdateMode ? 'Update Profile' : 'Complete Setup')}</span>
+                      <CheckCircle2 size={20} />
+                    </div>
                   )}
                 </Button>
               )}
